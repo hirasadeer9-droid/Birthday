@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Surprise 💗</title>
+  <style>
+*{box-sizing:border-box}
+:root{
+  --pink:#ed1972; --soft:#fff1f7; --deep:#8f2354;
+  --shadow:0 20px 60px rgba(150,30,85,.16);
+}
+html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif}
+body{
+  min-height:100vh; overflow-x:hidden; color:#642544;
+  background:linear-gradient(135deg,#ffe8f1,#fff8fb 50%,#ffdce9);
+}
+body:before,body:after{
+  content:"";position:fixed;border-radius:50%;filter:blur(4px);opacity:.35;pointer-events:none
+}
+body:before{width:180px;height:180px;background:#ffb6d1;top:8%;left:-70px}
+body:after{width:230px;height:230px;background:#ffd1e1;bottom:-90px;right:-70px}
+#hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.float-heart{position:absolute;bottom:-30px;animation:rise linear forwards;opacity:.7}
+@keyframes rise{to{transform:translateY(-110vh) rotate(20deg);opacity:0}}
+
+.app{min-height:100vh;display:grid;place-items:center;padding:24px}
+.screen{display:none;width:min(720px,100%);animation:appear .55s ease}
+.screen.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+
+.card{
+  position:relative;text-align:center;background:rgba(255,255,255,.91);
+  border:3px solid #f5a4c7;border-radius:32px;padding:42px 28px;
+  box-shadow:var(--shadow);backdrop-filter:blur(8px)
+}
+.wide{padding:38px 30px}
+h1{margin:10px 0 15px;font-size:clamp(30px,7vw,54px);line-height:1.05;color:#c41462}
+p{font-family:Arial,sans-serif;line-height:1.65;font-size:16px}
+.tiny{text-transform:uppercase;letter-spacing:3px;font-size:11px;font-weight:bold;color:#ba6a8e}
+.lead{font-size:18px}
+.muted{color:#9b6d82;font-size:14px}
+.cute-bears{font-size:76px;line-height:1;margin-bottom:18px}
+.cake,.big-cake{font-size:70px}
+.big-cake{font-size:100px}
+.sparkle{font-size:55px}
+.name{color:#e01870}
+input{
+  display:block;width:min(380px,100%);margin:24px auto 12px;padding:15px 18px;
+  border:2px solid #f2a0c5;border-radius:15px;outline:none;font-size:16px;
+  text-align:center;background:#fff8fb
+}
+input:focus{border-color:var(--pink);box-shadow:0 0 0 4px #ffd5e6}
+button{
+  border:0;border-radius:999px;background:var(--pink);color:white;
+  padding:14px 25px;font-size:15px;font-weight:bold;cursor:pointer;
+  box-shadow:0 8px 20px rgba(237,25,114,.25);transition:.2s
+}
+button:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.error{min-height:24px;color:#d01955;font-weight:bold;font-size:13px}
+.hint{font-size:12px;color:#b78a9b}
+
+.letter{
+  max-width:590px;margin:22px auto;padding:24px 25px;text-align:left;
+  background:#fff7fa;border-radius:22px;border:1px solid #f7c5d8
+}
+.letter p:first-child{font-size:22px;font-weight:bold;color:#c41462}
+.signature{text-align:right;margin-top:25px;color:#a54d76}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:25px 0}
+.photo{
+  min-height:210px;border-radius:20px;overflow:hidden;background:#ffe4ef;
+  border:2px solid #f5bfd4;position:relative;display:grid;place-items:center
+}
+.photo img{width:100%;height:100%;min-height:210px;object-fit:cover;display:block}
+.photo span{font-family:Arial,sans-serif;color:#b45d80;font-weight:bold}
+.placeholder{background:linear-gradient(145deg,#fff0f6,#ffdce9)}
+.final-card{overflow:hidden}
+.final-card:before{
+  content:"";position:absolute;inset:-100px;background:radial-gradient(circle,#ffd2e3 0 3px,transparent 4px);
+  background-size:38px 38px;opacity:.45;z-index:-1
+}
+.huge{font-size:35px;letter-spacing:14px}
+.final-wish{font-size:18px;font-weight:bold;color:#c41462}
+@media(max-width:600px){
+  .card{padding:32px 18px;border-radius:26px}
+  .gallery{grid-template-columns:1fr}
+  .photo{min-height:170px}
+  .photo img{min-height:170px}
+}
+
+</style>
+</head>
+<body>
+  <div id="hearts"></div>
+
+  <main class="app">
+    <!-- PASSWORD SCREEN -->
+    <section id="lockScreen" class="screen active">
+      <div class="card">
+        <div class="cute-bears" aria-hidden="true">🐻‍❄️ 🐻</div>
+        <p class="tiny">A little surprise is waiting for you...</p>
+        <h1>💗 Secret Birthday Door 💗</h1>
+        <p>Enter the secret passcode to continue.</p>
+
+        <input id="passwordInput" type="password" placeholder="Enter passcode" autocomplete="off">
+        <button id="unlockBtn">Open Surprise ✨</button>
+        <p id="error" class="error"></p>
+        <p class="hint">Hint: it's something special to you 😉</p>
+      </div>
+    </section>
+
+    <!-- WELCOME SCREEN -->
+    <section id="welcomeScreen" class="screen">
+      <div class="card">
+        <div class="cake">🎂</div>
+        <p class="tiny">The secret door is open...</p>
+        <h1>Happy Birthday, <span class="name">YOUR NAME</span>! 🎉</h1>
+        <p class="lead">I made a tiny corner of the internet just for you. 💕</p>
+        <button id="startBtn">Open Your Birthday Surprise 💌</button>
+      </div>
+    </section>
+
+    <!-- MESSAGE SCREEN -->
+    <section id="messageScreen" class="screen">
+      <div class="card wide">
+        <div class="sparkle">✨</div>
+        <p class="tiny">A message from me to you</p>
+        <h1>For <span class="name">YOUR NAME</span> 💗</h1>
+        <div class="letter">
+          <p>Happy Birthday! 🥳</p>
+          <p>
+            May this new year of your life be filled with peaceful moments,
+            genuine happiness, beautiful memories, and dreams coming true.
+          </p>
+          <p>
+            Thank you for being someone worth celebrating. I hope today reminds
+            you just how special you are. 🌷
+          </p>
+          <p class="signature">With lots of good wishes, 💕<br><span>YOUR NAME</span></p>
+        </div>
+        <button id="memoriesBtn">See the Memories 📸</button>
+      </div>
+    </section>
+
+    <!-- MEMORIES SCREEN -->
+    <section id="memoriesScreen" class="screen">
+      <div class="card wide">
+        <p class="tiny">Little moments, big memories</p>
+        <h1>Our Memory Wall 📸</h1>
+        <p class="muted">Replace the three sample boxes with your own photos.</p>
+
+        <div class="gallery">
+          <div class="photo"><img src="photos/photo1.jpg" alt="Memory 1" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder');"><span>🌷<br>Memory One</span></div>
+          <div class="photo"><img src="photos/photo2.jpg" alt="Memory 2" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder');"><span>🌸<br>Memory Two</span></div>
+          <div class="photo"><img src="photos/photo3.jpg" alt="Memory 3" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder');"><span>🦋<br>Memory Three</span></div>
+        </div>
+
+        <button id="finalBtn">One Last Surprise 🎁</button>
+      </div>
+    </section>
+
+    <!-- FINAL SCREEN -->
+    <section id="finalScreen" class="screen">
+      <div class="card final-card">
+        <div class="big-cake">🎂</div>
+        <h1>Happy Birthday! 💖</h1>
+        <p class="huge">🎈 🎉 🎈</p>
+        <p>May your smile stay bright and your year become a beautiful story.</p>
+        <p class="final-wish">You deserve all the happiness in the world. ✨</p>
+        <button id="againBtn">Replay the Surprise 🔄</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+// ================================
+// EASY CUSTOMIZATION
+// ================================
+const CONFIG = {
+  name: "YOUR NAME",
+  password: "1234",
+  signature: "YOUR NAME"
+};
+
+// Put your own name/password into CONFIG above.
+// Example: name: "Ayesha", password: "2008"
+
+// ================================
+
+const screens = {
+  lock: document.getElementById("lockScreen"),
+  welcome: document.getElementById("welcomeScreen"),
+  message: document.getElementById("messageScreen"),
+  memories: document.getElementById("memoriesScreen"),
+  final: document.getElementById("finalScreen")
+};
+
+document.querySelectorAll(".name").forEach(el => el.textContent = CONFIG.name);
+document.querySelector(".signature span").textContent = CONFIG.signature;
+
+const input = document.getElementById("passwordInput");
+const error = document.getElementById("error");
+
+function show(screen) {
+  Object.values(screens).forEach(s => s.classList.remove("active"));
+  screen.classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+document.getElementById("unlockBtn").addEventListener("click", () => {
+  if (input.value === CONFIG.password) {
+    error.textContent = "";
+    show(screens.welcome);
+    confettiBurst();
+  } else {
+    error.textContent = "Wrong passcode! 💗 Try again.";
+    input.value = "";
+    input.focus();
+  }
+});
+
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") document.getElementById("unlockBtn").click();
+});
+
+document.getElementById("startBtn").onclick = () => show(screens.message);
+document.getElementById("memoriesBtn").onclick = () => show(screens.memories);
+document.getElementById("finalBtn").onclick = () => {
+  show(screens.final);
+  confettiBurst();
+};
+document.getElementById("againBtn").onclick = () => {
+  input.value = "";
+  show(screens.lock);
+};
+
+function confettiBurst(){
+  const symbols = ["💗","💕","✨","🌸","🎉","🎈","💖"];
+  for(let i=0;i<35;i++){
+    const el=document.createElement("div");
+    el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.position="fixed";
+    el.style.left=(Math.random()*100)+"vw";
+    el.style.top="-30px";
+    el.style.fontSize=(16+Math.random()*20)+"px";
+    el.style.zIndex="20";
+    el.style.pointerEvents="none";
+    el.style.transition="transform 2.5s linear, opacity 2.5s linear";
+    document.body.appendChild(el);
+    requestAnimationFrame(()=>{
+      el.style.transform=`translate(${(Math.random()-.5)*160}px, ${window.innerHeight+80}px) rotate(${Math.random()*500}deg)`;
+      el.style.opacity="0";
+    });
+    setTimeout(()=>el.remove(),2700);
+  }
+}
+
+// Floating hearts
+setInterval(()=>{
+  const h=document.createElement("span");
+  h.className="float-heart";
+  h.textContent=["♡","♥","✦","🌸"][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=(12+Math.random()*20)+"px";
+  h.style.animationDuration=(5+Math.random()*5)+"s";
+  document.getElementById("hearts").appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+},700);
+
+</script>
+</body>
+</html>
